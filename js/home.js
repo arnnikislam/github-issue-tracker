@@ -32,7 +32,7 @@ const displayAllData = (data) => {
         : "Closed-Status.png";
     const priorityStyle = card.priority.toLowerCase();
     newCard.innerHTML = `
-  <div class="issue-card bg-white shadow-lg rounded-md py-4 space-y-2">
+  <div onclick="dataById(${card.id})" class="issue-card bg-white shadow-lg rounded-md py-4 space-y-2 h-full">
           <div class="flex justify-between items-center px-4">
             <img class="h-8 w-8" src="./assets/${imgUrl}" alt="" />
             <p
@@ -88,6 +88,77 @@ const displayClosedData = () => {
   );
   countData(closedData.length);
   displayAllData(closedData);
+};
+
+// =========== display card details as modal ==================
+// fetch every card 1st
+const dataById = (id) => {
+  fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`)
+    .then((res) => res.json())
+    .then((json) => cardModal(json.data));
+};
+
+// "id": 33,
+// "title": "Add bulk operations support",
+// "description": "Allow users to perform bulk actions like delete, update status on multiple items at once.",
+// "status": "open",
+// "labels": [
+// "enhancement"
+// ],
+// "priority": "low",
+// "author": "bulk_barry",
+// "assignee": "",
+// "createdAt": "2024-02-02T10:00:00Z",
+// "updatedAt": "2024-02-02T10:00:00Z"
+
+const cardModal = (data) => {
+  const isOpen = data.status.toLowerCase() === "open" ? "Opened" : "Closed";
+  const date = data.updatedAt.slice(0, 10);
+  const modalDes = document.getElementById("modal-des");
+  modalDes.innerHTML = `
+  <h2 class="font-bold text-xl">${data.title}</h2>
+            <ul class="list-disc flex justify-between text-gray-500">
+              <li
+                class="${isOpen} text-xs text-center py-2 px-5 rounded-full list-disc"
+              >
+                ${isOpen}
+              </li>
+              <li>${isOpen} by ${data.author}</li>
+              <li>${date}</li>
+            </ul>
+            <div class="flex gap-3 justify-start items-center px-4">
+              <p
+                class="text-[#EF4444] text-xs bg-[#FEECEC] text-center py-2 px-5 rounded-full"
+              >
+                <i class="fa-solid fa-bug"></i> <span> ${data.labels[0]} </span>
+              </p>
+              <p
+                class="text-[#D97706] text-xs bg-[#FDE68A] text-center py-2 px-5 rounded-full"
+              >
+                <i class="fa-solid fa-life-ring"></i>
+                <span> ${data.labels[1]} </span>
+              </p>
+            </div>
+
+            <p>
+              ${data.description}
+            </p>
+            <div class="bg-[#F8FAFC] rounded-md p-4 flex justify-between">
+              <p>
+                Assignee: <br />
+                <span class="font-semibold">${data.assignee ? data.assignee : "No assignee"}</span>
+              </p>
+              <p>
+                Priority: <br />
+                <span
+                  class="${data.priority.toLowerCase()}-priority text-xs text-center py-2 px-5 rounded-full"
+                  >${data.priority}</span
+                >
+              </p>
+            </div>
+  
+  `;
+  document.getElementById("my_modal").showModal();
 };
 
 // =============== when click on tab btn ================

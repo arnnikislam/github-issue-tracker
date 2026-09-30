@@ -113,8 +113,22 @@
       <!-- issue all card container section -->
       <section
         id="all-card-container"
-        class="bg-white p-4 shadow-lg grid gap-3 grid-cols-1 md:grid-cols-4 rounded-bl-lg rounded-br-lg"
+        class="bg-white p-4 shadow-lg grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 rounded-bl-lg rounded-br-lg"
       ></section>
+
+      <!-- modal -->
+      <dialog id="my_modal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box">
+          <div id="modal-des" class="space-y-4"></div>
+
+          <div class="modal-action">
+            <form method="dialog">
+              <!-- if there is a button in form, it will close the modal -->
+              <button class="btn btn-primary">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </main>
 
     <!-- link with js file -->

@@ -16,3 +16,13 @@
   background-color: #eeeff2;
   color: #9ca3af;
 }
+
+/* isOpened or not */
+.Opened {
+  background-color: #00a96e;
+  color: white;
+}
+.Closed {
+  background-color: #9ca3af;
+  color: white;
+}
