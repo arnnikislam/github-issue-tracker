@@ -26,3 +26,11 @@
   background-color: #9ca3af;
   color: white;
 }
+
+/* for border of opened and closed issue */
+.open-border {
+  border-top: 5px solid #00a96e;
+}
+.closed-border {
+  border-top: 5px solid #a855f7;
+}

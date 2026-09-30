@@ -32,7 +32,7 @@ const displayAllData = (data) => {
         : "Closed-Status.png";
     const priorityStyle = card.priority.toLowerCase();
     newCard.innerHTML = `
-  <div onclick="dataById(${card.id})" class="issue-card bg-white shadow-lg rounded-md py-4 space-y-2 h-full">
+  <div onclick="dataById(${card.id})" class="${card.status.toLowerCase()}-border issue-card bg-white shadow-lg rounded-md py-4 space-y-2 h-full">
           <div class="flex justify-between items-center px-4">
             <img class="h-8 w-8" src="./assets/${imgUrl}" alt="" />
             <p
@@ -97,19 +97,6 @@ const dataById = (id) => {
     .then((res) => res.json())
     .then((json) => cardModal(json.data));
 };
-
-// "id": 33,
-// "title": "Add bulk operations support",
-// "description": "Allow users to perform bulk actions like delete, update status on multiple items at once.",
-// "status": "open",
-// "labels": [
-// "enhancement"
-// ],
-// "priority": "low",
-// "author": "bulk_barry",
-// "assignee": "",
-// "createdAt": "2024-02-02T10:00:00Z",
-// "updatedAt": "2024-02-02T10:00:00Z"
 
 const cardModal = (data) => {
   const isOpen = data.status.toLowerCase() === "open" ? "Opened" : "Closed";
