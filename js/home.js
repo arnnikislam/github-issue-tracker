@@ -1,17 +1,28 @@
-// loadData all data
+// ===================== all data loading ================
+// load all data
+let allData = [];
 const loadAllData = async () => {
   const url = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
   const res = await fetch(url);
   const json = await res.json();
   const data = json.data;
+  allData = [...data];
   displayAllData(data);
+  countData(data.length);
 };
 
+// =============== for counting issues ===============
+const countData = (count) => {
+  const countContainer = document.getElementById("issue-count");
+  countContainer.innerText = count;
+};
+
+// ================ display all data ======================
 // display all data
 const displayAllData = (data) => {
   // getting the parent
-  const allCardContainer = document.getElementById("all-card-container");
-  allCardContainer.innerHTML = "";
+  const container = document.getElementById("all-card-container");
+  container.innerHTML = "";
   for (const card of data) {
     const newCard = document.createElement("div");
     const date = card.createdAt.slice(0, 10);
@@ -57,12 +68,55 @@ const displayAllData = (data) => {
           </div>
         </div>
   `;
-
-    allCardContainer.appendChild(newCard);
+    container.appendChild(newCard);
   }
 };
 
+// ============== display open data only ===============
+const displayOpenData = () => {
+  const openData = allData.filter(
+    (data) => data.status.toLowerCase() === "open",
+  );
+  countData(openData.length);
+  displayAllData(openData);
+};
+
+// ============== display closed data only ===============
+const displayClosedData = () => {
+  const closedData = allData.filter(
+    (data) => data.status.toLowerCase() === "closed",
+  );
+  countData(closedData.length);
+  displayAllData(closedData);
+};
+
+// =============== when click on tab btn ================
 // when click one all btn
 document.getElementById("all-btn").addEventListener("click", () => {
   loadAllData();
 });
+// when click on open btn
+document.getElementById("open-btn").addEventListener("click", () => {
+  displayOpenData();
+});
+// when click on closed btn
+document.getElementById("closed-btn").addEventListener("click", () => {
+  displayClosedData();
+});
+
+// ============== for togging tab btn ==============
+document.getElementById("tab-btns").addEventListener("click", (e) => {
+  const clickedBtn = e.target.closest(".tab-btn");
+  if (!clickedBtn) {
+    return;
+  } else {
+    const allBtns = document.querySelectorAll(".tab-btn");
+    allBtns.forEach((btn) => {
+      btn.classList.remove("btn-primary", "text-white");
+    });
+    clickedBtn.classList.add("btn-primary", "text-white");
+  }
+});
+
+// call always all data
+loadAllData();
