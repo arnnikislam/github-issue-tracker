@@ -2,3 +2,17 @@
   font-family: "Poppins", sans-serif;
   font-style: normal;
 }
+
+/* for priority styles dynamically */
+.high-priority {
+  background-color: #feecec;
+  color: #ef4444;
+}
+.medium-priority {
+  background-color: #fff6d1;
+  color: #f59e0b;
+}
+.low-priority {
+  background-color: #eeeff2;
+  color: #9ca3af;
+}
