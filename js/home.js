@@ -2,6 +2,7 @@
 // load all data
 let allData = [];
 const loadAllData = async () => {
+  showSpinner(true);
   const url = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
   const res = await fetch(url);
   const json = await res.json();
@@ -15,6 +16,17 @@ const loadAllData = async () => {
 const countData = (count) => {
   const countContainer = document.getElementById("issue-count");
   countContainer.innerText = count;
+};
+
+// ============ for showing spinner =====================
+const showSpinner = (value) => {
+  if (value) {
+    document.getElementById("spinner").classList.remove("hidden");
+    document.getElementById("all-card-container").classList.add("hidden");
+  } else {
+    document.getElementById("spinner").classList.add("hidden");
+    document.getElementById("all-card-container").classList.remove("hidden");
+  }
 };
 
 // ================ display all data ======================
@@ -68,6 +80,7 @@ const displayAllData = (data) => {
           </div>
         </div>
   `;
+    showSpinner(false);
     container.appendChild(newCard);
   }
 };
