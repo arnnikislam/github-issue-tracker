@@ -103,6 +103,37 @@ const displayClosedData = () => {
   displayAllData(closedData);
 };
 
+// =============== display search data ======================
+document.getElementById("search-btn").addEventListener("click", () => {
+  const searchBox = document.getElementById("search-txt");
+  const searchedValue = searchBox.value.trim().toLowerCase();
+  const matchedData = allData.filter(
+    (data) =>
+      data.title.toLowerCase().includes(searchedValue) ||
+      data.description.toLowerCase().includes(searchedValue),
+  );
+  //   when searched then all btn should not active
+  document
+    .getElementById("all-btn")
+    .classList.remove("btn-primary", "text-white");
+  // removing the value
+  searchBox.value = "";
+
+  if (matchedData.length === 0) {
+    document.getElementById("all-card-container").innerHTML = `
+    <div role="alert" class="alert alert-warning col-span-full my-12">
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+  </svg>
+  <span>Warning: No match issue found!</span>
+</div>
+    `;
+  } else {
+    countData(matchedData.length);
+    displayAllData(matchedData);
+  }
+});
+
 // =========== display card details as modal ==================
 // fetch every card 1st
 const dataById = (id) => {
@@ -117,7 +148,7 @@ const cardModal = (data) => {
   const modalDes = document.getElementById("modal-des");
   modalDes.innerHTML = `
   <h2 class="font-bold text-xl">${data.title}</h2>
-            <ul class="list-disc flex justify-between text-gray-500">
+            <ul class="list-disc flex gap-3 justify-between text-gray-500">
               <li
                 class="${isOpen} text-xs text-center py-2 px-5 rounded-full list-disc"
               >
